@@ -17,14 +17,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Apktool
+      - name: Install Apktool & Unzip
         run: |
           sudo apt-get update
-          sudo apt-get install -y apktool
+          sudo apt-get install -y apktool unzip
+
+      - name: Extract Source Code
+        run: |
+          unzip -q 2-Full-Source-Code.zip -d extracted_source
 
       - name: Rebuild APK
         run: |
-          apktool b . -o egyplayer-fixed.apk
+          apktool b extracted_source -o egyplayer-fixed.apk
 
       - name: Sign APK with Debug Key
         run: |
