@@ -17,14 +17,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Apktool & Unzip
+      - name: Install Tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y apktool unzip
+          sudo apt-get install -y apktool unzip sed
 
       - name: Extract Source Code
         run: |
           unzip -q 2-Full-Source-Code.zip -d extracted_source
+
+      - name: Update API URL to egyplayer.com
+        run: |
+          # استبدال أي روابط قديمة للـ API أو الـ Loader برابط موقعك الجديد
+          find extracted_source -type f \( -name "*.java" -o -name "*.smali" -o -name "*.xml" \) -exec sed -i 's|http://.*egyplayer\.com|https://egyplayer.com|g' {} +
+          find extracted_source -type f \( -name "*.java" -o -name "*.smali" -o -name "*.xml" \) -exec sed -i 's|https://.*egyplayer\.com|https://egyplayer.com|g' {} +
 
       - name: Rebuild APK
         run: |
